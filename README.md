@@ -22,12 +22,6 @@ files/firstrun.ini
 files/serveroverrides.ini
 ```
 
-You may need to create the necessary directories yourself, like in this case
-```bash
-~/games/FCE/
-~/games/FCE_server/
-```
-
 To build the image: (in the same folder as docker-compose.yml)
 ```bash
 docker-compose build

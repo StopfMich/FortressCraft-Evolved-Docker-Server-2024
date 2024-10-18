@@ -1,10 +1,11 @@
 # FortressCraft-Evolved-Docker-Server
-
+A fork from https://github.com/Stinosko/FortressCraft-Evolved-Docker-Server
+since I couldn't get it to start, I have migrated it from steamcmd/steamcmd to cm2network/steamcmd (the official one)
 
 
 ## Usage
 
-I recommend reading this Article first https://steamcommunity.com/sharedfiles/filedetails/?id=788739671
+I recommend reading this article first https://github.com/StopfMich/FortressCraft-Evolved-Docker-Server-2024
 
 ### Quick Start
 
@@ -14,7 +15,7 @@ git clone "https://github.com/Dakes/FortressCraft-Evolved-Docker-Server.git"
 cd FortressCraft-Evolved-Docker-Server
 ```
 
-Change the folling files to your needs:
+Change the following files to your needs:
 ```bash
 docker-compose.yml
 files/firstrun.ini
@@ -45,24 +46,13 @@ docker-compose up -d --build
 
 ### Notes
 
-It may take some time until the server got downloaded the first time. It is ~5gb in size.  
-
-If you use the volume:
-```YAML
-- ~/games/FCE_server:/opt/FCE
-```
-The 5gb server will be saved in `~/games/FCE_server` rather than inside the docker. 
-It will be revalidated and updated after future rebuilds of the container, without the need to redownload all ~5gb.  
-
+It may take some time until the server gets downloaded the first time. It is ~5 GB in size. So please don't panic if it looks stuck on 
+```log Loading Steam API...OK```
 
 ### Mods
 
-To set up your server with mods, just follow the steps in this Article:
+To set up your server with mods, follow the steps in this Article:
 https://steamcommunity.com/sharedfiles/filedetails/?id=788739671
 
-The necessary directories will be the following:
-```
-~/games/FCE/Worlds/
-~/games/FCE/WorkshopMods/
-```
+The necessary directories can be configured in the docker-compose file!
 

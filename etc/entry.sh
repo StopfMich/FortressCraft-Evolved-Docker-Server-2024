@@ -1,18 +1,19 @@
 #!/bin/bash
 
-STEAMAPPDIR="/opt/FCE"
+STEAMAPPDIR="/home/steam/fortresscraft-dedicated"
 
 echo "Creating necessary directories..."
 mkdir -p "$SAVES"
 mkdir -p "$CONFIG"
 mkdir -p "$MODS"
 mkdir -p "$STEAMAPPDIR/Default"
+chown -R steam:steam "/home/steam"
 
 set -ox pipefail
 
 if [ -n "${STEAM_BETA_BRANCH}" ]; then
     echo "Loading Steam Beta Branch"
-    bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
+    gosu steam bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
                     +login anonymous \
                     +app_update "${STEAM_BETA_APP}" \
                     -beta "${STEAM_BETA_BRANCH}" \
@@ -20,7 +21,7 @@ if [ -n "${STEAM_BETA_BRANCH}" ]; then
                     +quit
 else
     echo "Loading Steam Release Branch"
-    bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
+    gosu steam bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
                     +login anonymous \
                     +app_update "${STEAMAPPID}" \
                     +quit
@@ -46,16 +47,6 @@ fi
 cp $CONFIG/serveroverrides.ini "$STEAMAPPDIR/Default/serveroverrides.ini"
 cp $CONFIG/firstrun.ini "$STEAMAPPDIR/Default/firstrun.ini"
 
-if [[ $(id -u) = 0 ]]; then
-  echo "Updating user and group IDs..."
-  usermod -o -u "$PUID" steam
-  groupmod -o -g "$PGID" steam
-  chown -R steam:steam "/home/steam"
-  SU_EXEC="su-exec steam"
-else
-  SU_EXEC=""
-fi
-
 echo "Starting FortressCraft server..."
 cd "$STEAMAPPDIR"
 
@@ -69,7 +60,7 @@ fi
 chmod +x ./FC_Linux_Universal.x86_64
 
 # Start the server
-exec $SU_EXEC ./FC_Linux_Universal.x86_64 -batchmode
+exec gosu steam ./FC_Linux_Universal.x86_64 -batchmode
 
 # Keep the container running
 tail -f /dev/null

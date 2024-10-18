@@ -1,17 +1,15 @@
-version: '2'
 services:
   fce:
     build: .
     ports:
      - "27012:27012/udp" # game port
-     - "27015:27015" # rcon (delete if you don't want to use rcon)
+     - "27015:27015/udp" # rcon port
     volumes:
-     # This the directory containing the world, config (.ini), mods and logs. 
-     - ~/games/FCE:/FCE
-     # This is the Server directory, containing the executable. As well as firstrun.ini and serveroverrides.ini in /opt/FCE/Default
-     - ~/games/FCE_server:/opt/FCE
+     # This is the directory containing the world, config (.ini), mods and logs.
+     - ~/game_server/fortressCraft/data:/home/steam/fce
+     # This is the Server directory, containing the executable. As well as firstrun.ini und serveroverrides.ini in /home/steam/fortresscraft-dedicated/Default
+     - ~/game_server/fortressCraft/exe:/home/steam/fortresscraft-dedicated
     environment:
-      #- PUID=1000
-      #- PGID=1000
+      - PUID=1000
+      - PGID=1000
       - UPDATE_MODS_ON_START=true
-
